@@ -1,0 +1,157 @@
+---
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+import { anchors, phones, instagram } from "../data/clinic";
+---
+<header class="header" data-rec="U-R002,U-R018">
+  <div class="header__inner container">
+    <Logo />
+
+    <nav class="header__nav" aria-label="Розділи сторінки">
+      <ul>
+        {anchors.map((a) => <li><a class="header__link" href={a.href}>{a.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <a class="header__phone link" href={phones.main.href} aria-label={`Подзвонити для запису: ${phones.main.full}`}>{phones.main.label}</a>
+      <a class="btn btn--sm header__book" href={phones.main.href}>Записатися</a>
+
+      <a class="btn btn--sm header__call" href={phones.main.href} aria-label={`Подзвонити: ${phones.main.full}`}>
+        <Icon name="phone" size={18} /><span class="header__call-text">Подзвонити</span>
+      </a>
+
+      <details class="menu" data-menu>
+        <summary class="menu__toggle" aria-label="Меню">
+          <span class="menu__icon menu__icon--open"><Icon name="menu" /></span>
+          <span class="menu__icon menu__icon--close"><Icon name="close" /></span>
+          <span class="menu__label">Меню</span>
+        </summary>
+        <div class="menu__panel">
+          <nav aria-label="Меню">
+            <ul class="menu__list">
+              {anchors.map((a) => <li><a class="menu__link" href={a.href}>{a.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="menu__actions">
+            <a class="btn" href={phones.main.href}><Icon name="phone" size={18} />Подзвонити й записатися</a>
+            <a class="link link-row" href={instagram} rel="noopener" target="_blank"><Icon name="instagram" />Instagram @dermavitalviv</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-bg);
+    border-bottom: var(--line) solid var(--color-layer-2);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    height: var(--header-h);
+  }
+  .header__nav { display: none; }
+  .header__nav ul { display: flex; gap: var(--s-1); }
+  .header__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--s-3);
+    border-radius: var(--radius-pill);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--fs-small);
+    white-space: nowrap;
+    transition: background-color var(--dur-micro) var(--ease-out);
+  }
+  @media (hover: hover) {
+    .header__link:hover { background: var(--color-layer-1); }
+  }
+  .header__actions { display: flex; align-items: center; gap: var(--s-2); }
+  .header__phone, .header__book { display: none; }
+  .header__phone {
+    color: var(--color-accent);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    min-height: var(--tap);
+    align-items: center;
+    margin-right: var(--s-3);
+  }
+  .header__call { padding: 0 var(--s-4); }
+
+  .menu { position: static; }
+  .menu__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: var(--tap);
+    padding: 0 var(--s-3);
+    border: var(--line) solid var(--color-muted);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color var(--dur-micro) var(--ease-out);
+  }
+  .menu__toggle::-webkit-details-marker { display: none; }
+  .menu__icon { display: inline-flex; }
+  .menu__icon--close { display: none; }
+  .menu[open] .menu__icon--open { display: none; }
+  .menu[open] .menu__icon--close { display: inline-flex; }
+  .menu__toggle:active { transform: scale(.98); }
+  .menu__panel {
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    background: var(--color-bg);
+    padding: var(--s-6) var(--space) var(--s-7);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--s-7);
+    overflow-y: auto;
+    border-top: var(--line) solid var(--color-layer-2);
+  }
+  .menu__list { display: grid; }
+  .menu__link {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: var(--line) solid var(--color-layer-2);
+    white-space: nowrap;
+  }
+  .menu__actions { display: grid; gap: var(--s-4); justify-items: start; }
+  .menu__actions .btn { width: 100%; }
+
+  @media (max-width: 29.99rem) {
+    .header__inner { gap: var(--s-3); }
+    .header__call-text { display: none; }
+    .header__call { width: var(--tap); padding: 0; justify-content: center; }
+  }
+  @media (max-width: 23.99rem) {
+    .menu__label { display: none; }
+    .menu__toggle { width: var(--tap); padding: 0; justify-content: center; }
+  }
+
+  @media (min-width: 64rem) {
+    .header__nav { display: block; }
+    .header__phone { display: inline-flex; }
+    .header__book { display: inline-flex; }
+    .header__call, .menu { display: none; }
+  }
+</style>

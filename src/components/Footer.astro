@@ -1,0 +1,44 @@
+---
+import Logo from "./Logo.astro";
+import FutureLink from "./FutureLink.astro";
+import { anchors, NOTE_SOON } from "../data/clinic";
+const year = new Date().getFullYear();
+---
+<footer class="footer on-deep">
+  <div class="container footer__inner">
+    <div class="footer__about" data-rec="U-R006">
+      <Logo tone="deep" />
+      <p>DermaVita — медичний дермато-косметологічний центр у Львові з ліцензією МОЗ. Працюємо з 2015 року: дерматологія, трихологія, ін'єкційна естетика, апаратна косметологія, корекція фігури і навчання косметологів у Dermavita academy.</p>
+    </div>
+    <nav class="footer__nav" aria-label="Підвал">
+      <ul>
+        {anchors.map((a) => <li><a class="link" href={a.href}>{a.label}</a></li>)}
+        <li><FutureLink note={NOTE_SOON}>Блог</FutureLink></li>
+        <li><FutureLink note={NOTE_SOON}>Політика конфіденційності</FutureLink></li>
+        <li><FutureLink note={NOTE_SOON}><span lang="en">EN</span></FutureLink></li>
+      </ul>
+    </nav>
+    <p class="footer__copy">© {year} DermaVita</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-deep);
+    color: var(--color-on-dark);
+  }
+  .footer__inner {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--s-8) var(--s-7);
+    border-top: var(--line) solid var(--color-line-deep);
+  }
+  .footer__about { display: grid; gap: var(--s-4); justify-items: start; }
+  .footer__about p { max-width: 60ch; font-size: var(--fs-small); }
+  .footer__nav ul { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-5); }
+  .footer__nav li { display: flex; align-items: center; min-height: var(--tap); white-space: nowrap; }
+  @media (max-width: 63.99rem) {
+    .footer { padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom)); }
+  }
+  .footer__copy { font-size: var(--fs-small); color: var(--color-accent-on-deep); }
+</style>

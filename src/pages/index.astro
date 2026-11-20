@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Napryamy from "../components/Napryamy.astro";
+import Likari from "../components/Likari.astro";
+import Akademiya from "../components/Akademiya.astro";
+import Kontakty from "../components/Kontakty.astro";
+import Footer from "../components/Footer.astro";
+import CallBar from "../components/CallBar.astro";
+import { phones, email, instagram, youtube } from "../data/clinic";
+
+const title = "Дерматологія та косметологія у Львові | DermaVita";
+const description =
+  "Медичний дермато-косметологічний центр DermaVita у Львові з 2015 року, ліцензія МОЗ. Дерматологія, трихологія, ін'єкції, IPL, RF, лазер. Запис: 067 374 96 76.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalClinic",
+  name: "DermaVita",
+  description,
+  foundingDate: "2015",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "вул. І. Тиктора, 8",
+    addressLocality: "Львів",
+    addressCountry: "UA",
+  },
+  telephone: [phones.main.full, ...phones.others.map((p) => p.full)],
+  email,
+  sameAs: [instagram, youtube],
+  medicalSpecialty: ["Dermatology"],
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <script slot="head" type="application/ld+json" data-rec="SEO-R002,P-R007" set:html={JSON.stringify(jsonLd)} />
+  <Header slot="header" />
+  <Hero />
+  <Napryamy />
+  <Likari />
+  <Akademiya />
+  <Kontakty />
+  <Footer slot="footer" />
+  <CallBar slot="footer" />
+</Base>

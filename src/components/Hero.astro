@@ -1,0 +1,167 @@
+---
+import Icon from "./Icon.astro";
+import { phones, instagram, license, address, layers, dermatology } from "../data/clinic";
+---
+<section id="hero" data-rec="U-R001,U-R012,G-R005,M-R005,P-R001" class="hero" aria-label="Перший екран">
+  <div class="hero__text">
+    <h1 class="hero__title" data-rec="SEO-R001">Дерматологія та косметологія у Львові</h1>
+    <p class="hero__lead">Медичний дермато-косметологічний центр з&nbsp;2015 року: від огляду дерматолога до апаратної та ін'єкційної косметології.</p>
+    <div class="hero__cta">
+      <a class="btn hero__call" href={phones.main.href}><Icon name="phone" size={18} />Подзвонити й записатися</a>
+      <p class="hero__meta"><span>{license}</span><span>{address.city}, {address.street}</span></p>
+      <a class="link link-row hero__ig" href={instagram} rel="noopener" target="_blank"><Icon name="instagram" />Написати в Instagram</a>
+    </div>
+  </div>
+
+  <nav class="cut" aria-label="Схема напрямів за шарами шкіри" data-rec="U-R011">
+    <ul class="cut__layers">
+      {layers.map((l, i) => (
+        <li class={`cut__layer cut__layer--${i + 1}`} style={`--i:${i}`}>
+          <a href={`#${l.id}`}>
+            <span class="cut__name">{l.short}</span>
+            <span class="cut__depth">{l.depth}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a class="cut__core" href={`#${dermatology.id}`} style="--i:4">
+      <span class="cut__core-text">{dermatology.name}</span>
+      <span class="visually-hidden">: крізь усі шари</span>
+    </a>
+  </nav>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: var(--space) minmax(0, 1fr) var(--space);
+    row-gap: var(--s-7);
+    padding-top: var(--s-6);
+  }
+  .hero__text { grid-column: 2; display: grid; gap: var(--s-5); align-content: center; }
+  .hero__title {
+    font-size: clamp(2.25rem, 0.6rem + 8.5vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    max-width: 12ch;
+    text-wrap: balance;
+  }
+  .hero__lead { font-size: var(--fs-lead); line-height: 1.45; max-width: 34ch; color: var(--color-text); }
+  .hero__cta { display: grid; gap: var(--s-4); justify-items: start; margin-top: var(--s-2); }
+  .hero__call { width: 100%; }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--s-5);
+    row-gap: var(--s-1);
+    font-size: var(--fs-small);
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+  .hero__ig { color: var(--color-accent); font-weight: 500; }
+
+  /* The cut: four skin layers, dermatology as a core through all of them */
+  .cut {
+    --lead: 16px;
+    --core: 64px;
+    grid-column: 2 / 4;
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--lead) var(--core) minmax(0, 1fr);
+  }
+  .cut__layers { grid-column: 1 / -1; grid-row: 1; display: grid; }
+  .cut__layer { display: grid; }
+  .cut__layer a {
+    display: grid;
+    align-content: center;
+    gap: 2px;
+    min-height: 56px;
+    padding: var(--s-3) var(--space) var(--s-3) calc(var(--lead) + var(--core) + var(--s-4));
+    color: var(--color-text);
+    text-decoration: none;
+    outline-offset: -4px;
+  }
+  .cut__layer--1 { background: var(--color-layer-1); }
+  .cut__layer--2 { background: var(--color-layer-2); }
+  .cut__layer--3 { background: var(--color-layer-3); }
+  .cut__layer--4 { background: var(--color-brand); --focus: var(--color-text); }
+  .cut__name { font-family: var(--font-display); font-weight: 500; font-size: 1.0625rem; line-height: 1.2; }
+  .cut__depth { font-size: var(--fs-small); line-height: 1.3; color: var(--color-muted); }
+  .cut__layer--3 .cut__depth, .cut__layer--4 .cut__depth { color: var(--color-text); }
+  .cut__core {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-accent);
+    color: var(--color-on-dark);
+    text-decoration: none;
+    --focus: var(--color-on-dark);
+    outline-offset: -4px;
+    z-index: 1;
+  }
+  .cut__core-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  @media (hover: hover) {
+    .cut__layer a:hover .cut__name, .cut__core:hover .cut__core-text { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  }
+
+  /* Effect 1: the cut opens layer by layer, the core last. Text of the hero is visible from the first frame. */
+  :global(.js) .cut__layer, :global(.js) .cut__core {
+    animation: cut-open var(--dur) var(--ease-out) both;
+    animation-delay: calc(var(--i) * var(--cut-step));
+  }
+  @keyframes cut-open {
+    from { clip-path: inset(0 0 100% 0); opacity: 0; }
+    to { clip-path: inset(0 0 0 0); opacity: 1; }
+  }
+
+  @media (min-width: 40rem) {
+    .hero__title { font-size: var(--fs-h1); }
+    .hero__call { width: auto; }
+    .cut { --lead: 24px; --core: 80px; }
+    .cut__layer a { min-height: 72px; }
+    .cut__name { font-size: 1.25rem; }
+  }
+
+  @media (min-width: 64rem) {
+    .hero {
+      grid-template-columns:
+        minmax(var(--space), 1fr)
+        repeat(12, minmax(0, calc((var(--container) - 11 * var(--gap)) / 12)))
+        minmax(var(--space), 1fr);
+      column-gap: var(--gap);
+      min-height: calc(min(100svh, 900px) - var(--header-h));
+      padding-top: 0;
+    }
+    .hero__text { grid-column: 2 / 9; padding-block: var(--s-8); padding-right: var(--s-6); }
+    .hero__cta {
+      grid-template-columns: max-content max-content;
+      justify-content: start;
+      align-items: center;
+      column-gap: var(--s-6);
+      row-gap: var(--s-5);
+    }
+    .hero__call { grid-column: 1; grid-row: 1; }
+    .hero__ig { grid-column: 2; grid-row: 1; }
+    .hero__meta { grid-column: 1 / -1; grid-row: 2; }
+    .cut { grid-column: 9 / -1; grid-template-rows: minmax(0, 1fr); --lead: 32px; --core: 88px; }
+    .cut__layers { grid-template-rows: 1fr 1.15fr 1.3fr 1.5fr; }
+    .cut__layer a { padding-right: var(--space); padding-block: var(--s-5); }
+    .cut__name { font-size: var(--fs-h3); max-width: 16ch; }
+    .cut__core-text { font-size: var(--fs-h3); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .cut__layer, :global(.js) .cut__core { animation: none; }
+  }
+</style>

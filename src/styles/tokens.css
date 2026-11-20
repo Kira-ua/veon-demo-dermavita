@@ -1,0 +1,125 @@
+/* Hallmark · shape: custom (зріз шкіри) · genre: editorial · theme: custom · job: book · idea: "Головна — поперечний зріз шкіри: напрями на своїх шарах, дерматологія — вертикаль крізь усі" · vibe: "точна медична схема, теплий рожевий, глибина" · paper: #F8F2F2 · accent: #7A4A56 · display: Geologica · body: Onest · hero: H1 на 7 колонках + схема-зріз праворуч до краю вікна · nav: лого, 4 якорі, номер текстом, «Записатися» · footer: глибокий шар, текст про центр, одна лінія посилань · imagery: client photos (2 портрети) · signature: схема-зріз шкіри з вертикаллю дерматології · axes: light/geometric-sans/chromatic-pink · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, лише один придатний портрет клієнта; другий — типографський знак з підписом «зображення клієнта», сторінка тримається на схемі й наборі */
+/* Client design tokens: only from design/concept.md (veon-concept: colors, fonts). */
+
+@font-face {
+  font-family: "Geologica";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/geologica-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Geologica";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/geologica-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/onest-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/onest-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Metric-adjusted fallbacks: keep layout steady while the web fonts load (CLS 0). */
+@font-face {
+  font-family: "Geologica Fallback";
+  src: local("Arial");
+  size-adjust: 104%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Onest Fallback";
+  src: local("Arial");
+  size-adjust: 101%;
+  ascent-override: 94%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+:root {
+  /* Colour: depth of the skin, light surface to deep plum */
+  --color-bg: #F8F2F2;            /* поверхня */
+  --color-layer-1: #F0E4E5;
+  --color-layer-2: #E6D5D7;
+  --color-layer-3: #D8BEC3;
+  --color-brand: #A57880;         /* фірмовий мов: великі поверхні, текст на ньому — ink */
+  --color-accent: #7A4A56;        /* вертикаль дерматології, основна дія на світлому */
+  --color-deep: #3B2330;          /* контакти й підвал */
+  --color-text: #1E1116;
+  --color-muted: #6B4F57;         /* не на layer-3 і brand */
+  --color-on-dark: #FBF6F6;
+  --color-accent-on-deep: #E2B9C0;
+  --color-line-deep: #5E3A4A;
+
+  /* Type */
+  --font-display: "Geologica", "Geologica Fallback", system-ui, sans-serif;
+  --font-body: "Onest", "Onest Fallback", system-ui, sans-serif;
+  --fs-h1: clamp(2.25rem, 1rem + 4.6vw, 5.5rem);
+  --fs-h2: clamp(2rem, 1.3rem + 2.4vw, 3.5rem);
+  --fs-big: clamp(1.875rem, 1rem + 3.1vw, 4rem);
+  --fs-h3: clamp(1.375rem, 1.15rem + 0.6vw, 1.75rem);
+  --fs-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --fs-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);
+  --fs-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+
+  /* Space: 4/8 scale */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 160px;
+  --section-gap: clamp(72px, 4rem + 6vw, 160px);
+  --space: clamp(20px, 5vw, 120px);   /* поля сторінки */
+  --gap: 24px;
+  --container: 1360px;
+  --header-h: 72px;
+  --bar-h: 72px;
+  --tap: 44px;
+  --btn-h: 52px;
+
+  /* Shape */
+  --radius: 4px;
+  --radius-pill: 999px;
+  --line: 1px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+  --dur-micro: 120ms;
+  --dur-short: 240ms;
+  --dur: 600ms;
+  --dur-light: 900ms;
+  --cut-step: 60ms;
+}
+
+@media (max-width: 39.99rem) {
+  :root {
+    --gap: 16px;
+    --header-h: 64px;
+    --btn-h: 56px;
+    --dur: 500ms;
+    --cut-step: 50ms;
+  }
+}

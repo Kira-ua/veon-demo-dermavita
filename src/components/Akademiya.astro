@@ -1,0 +1,61 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { phones, email, NOTE_SOON } from "../data/clinic";
+const courses = ["Плазмотерапія", "Контурна корекція губ"];
+---
+<section id="akademiya" class="akademiya section on-brand" aria-labelledby="akademiya-title">
+  <div class="container akademiya__grid">
+    <div class="akademiya__intro">
+      <h2 id="akademiya-title">Dermavita academy</h2>
+      <p class="lead">Центр навчає косметологів ін'єкційних методик. Це курси для фахівців, а не процедури для пацієнтів.</p>
+      <p class="akademiya__who"><a class="link" href="#likari">Познайомитися із засновниками центру</a></p>
+    </div>
+
+    <div class="akademiya__courses">
+      <ul class="courses" aria-label="Курси">
+        {courses.map((c) => <li><FutureLink note={NOTE_SOON} class="course">{c}</FutureLink></li>)}
+      </ul>
+      <div class="akademiya__actions">
+        <a class="btn btn--ink" href={phones.main.href}><Icon name="phone" size={18} />Подзвонити щодо курсу</a>
+        <a class="link link-row" href={`mailto:${email}`}>{email}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .akademiya { background: var(--color-brand); color: var(--color-text); }
+  .akademiya__grid { display: grid; gap: var(--s-8); }
+  .akademiya__intro { display: grid; gap: var(--s-4); align-content: start; }
+  .akademiya__intro .lead { max-width: 36ch; }
+  .akademiya__who { font-size: var(--fs-small); }
+  .courses { display: grid; border-top: var(--line) solid var(--color-text); }
+  .courses li { border-bottom: var(--line) solid var(--color-text); }
+  .courses :global(.course) {
+    display: flex;
+    min-height: 64px;
+    padding-block: var(--s-4);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--fs-big);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.14em;
+  }
+  .akademiya__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-4) var(--s-6);
+    margin-top: var(--s-7);
+  }
+  .akademiya__actions .link { font-weight: 500; }
+
+  @media (min-width: 64rem) {
+    .akademiya__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .akademiya__intro { grid-column: 1 / 6; padding-right: var(--s-5); }
+    .akademiya__courses { grid-column: 7 / -1; }
+  }
+</style>

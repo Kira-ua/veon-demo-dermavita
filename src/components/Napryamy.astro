@@ -1,0 +1,193 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { layers, dermatology, phones, NOTE_SOON } from "../data/clinic";
+---
+<section id="napryamy" class="napryamy" data-rec="U-R009,U-R012" aria-labelledby="napryamy-title">
+  <div class="container">
+    <div class="napryamy__head">
+      <h2 id="napryamy-title">Напрями й ціни</h2>
+      <p class="napryamy__note">Ціни «від» зі сторінки цін центру. Точну вартість назве лікар після огляду.</p>
+      <FutureLink note={NOTE_SOON} class="napryamy__all">Усі ціни</FutureLink>
+    </div>
+
+    <div class="strata">
+      <article id={dermatology.id} class="stratum stratum--core on-accent" aria-labelledby="t-derm">
+        <div class="core__top">
+          <h3 id="t-derm">{dermatology.name}</h3>
+          <p class="stratum__depth">крізь усі шари шкіри</p>
+          <ul class="procs">
+            {dermatology.procedures.map((p) => (
+              <li>
+                <FutureLink note={NOTE_SOON}>{p.name}</FutureLink>
+                {p.price && <span class="price">{p.price}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="core__start">
+          <p>Не знаєте, з чого почати? Почніть з консультації дерматолога.</p>
+          <a class="btn btn--light" href={phones.main.href}><Icon name="phone" size={18} />Подзвонити</a>
+        </div>
+      </article>
+
+      {layers.map((l, i) => (
+        <article id={l.id} class:list={["stratum", `stratum--${i + 1}`, { "on-brand": i === 3 }]} aria-labelledby={`t-${l.id}`}>
+          <div class="stratum__title">
+            <h3 id={`t-${l.id}`}>{l.name}</h3>
+            <p class="stratum__depth">{l.depth}</p>
+          </div>
+          <ul class="procs">
+            {l.procedures.map((p) => (
+              <li>
+                <FutureLink note={NOTE_SOON}>{p.name}</FutureLink>
+                {p.price ? <span class="price">{p.price}</span> : <span class="procs__ask">ціну уточнюйте телефоном</span>}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .napryamy { padding-block: var(--section-gap) 0; }
+  .napryamy__head {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    margin-bottom: var(--s-7);
+  }
+  .napryamy__note { color: var(--color-muted); max-width: 46ch; }
+  .napryamy__all { color: var(--color-accent); font-weight: 500; min-height: var(--tap); }
+
+  .strata {
+    display: grid;
+    margin-inline: calc(-1 * var(--space));
+  }
+  .stratum {
+    position: relative;
+    display: grid;
+    gap: var(--s-5);
+    padding: var(--s-6) var(--space);
+  }
+  .stratum > * { position: relative; z-index: 1; }
+  .stratum--core { background: var(--color-accent); color: var(--color-on-dark); gap: var(--s-7); }
+  .stratum--1 { background: var(--color-layer-1); }
+  .stratum--2 { background: var(--color-layer-2); }
+  .stratum--3 { background: var(--color-layer-3); }
+  .stratum--4 { background: var(--color-brand); }
+
+  .stratum__depth { font-size: var(--fs-small); color: var(--color-muted); margin-top: var(--s-1); }
+  .stratum--core .stratum__depth { color: var(--color-layer-1); }
+  .stratum--3 .stratum__depth, .stratum--4 .stratum__depth { color: var(--color-text); }
+
+  .procs { display: grid; gap: var(--s-1); transition: transform var(--dur-short) var(--ease-out); }
+  .procs li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--s-4);
+    min-height: var(--tap);
+    align-content: center;
+  }
+  .procs .price { font-size: var(--fs-body); }
+  .procs__ask { font-size: var(--fs-small); color: var(--color-muted); }
+  .stratum--3 .procs__ask, .stratum--4 .procs__ask { color: var(--color-text); }
+
+  .core__top { display: grid; gap: var(--s-4); }
+  .core__start {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    padding-top: var(--s-5);
+    border-top: var(--line) solid var(--color-brand);
+    font-size: var(--fs-lead);
+    line-height: 1.4;
+  }
+
+  /* Effect 3: depth mark grows on the hovered or focused row */
+  .stratum:not(.stratum--core)::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 6px;
+    background: var(--color-accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--dur-short) var(--ease-out);
+    z-index: 1;
+  }
+  .stratum:focus-within::before { transform: scaleY(1); }
+  @media (hover: hover) {
+    .stratum:hover::before { transform: scaleY(1); }
+    .stratum:hover .procs, .stratum:focus-within .procs { transform: translateX(4px); }
+  }
+
+  /* Effect 2: a short light on the row reached from the hero cut */
+  .stratum::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-on-dark);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .stratum:target::after { animation: row-light var(--dur-light) var(--ease-out); }
+  @keyframes row-light {
+    0% { opacity: 0; }
+    35% { opacity: .5; }
+    100% { opacity: 0; }
+  }
+
+  @media (min-width: 40rem) {
+    .stratum { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--s-6); align-items: start; }
+    .stratum--core { grid-template-columns: minmax(0, 1fr); }
+    .stratum--1 { padding-block: var(--s-6); }
+    .stratum--2 { padding-block: var(--s-7); }
+    .stratum--3 { padding-block: var(--s-7); }
+    .stratum--4 { padding-block: var(--s-8); }
+  }
+
+  @media (min-width: 64rem) {
+    .napryamy__head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      column-gap: var(--s-6);
+    }
+    .napryamy__head h2 { grid-column: 1; }
+    .napryamy__note { grid-column: 1; }
+    .napryamy__all { grid-column: 2; grid-row: 1 / 3; align-self: end; }
+    .strata {
+      margin-inline: 0;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 0;
+    }
+    .stratum--core {
+      grid-column: 1 / 4;
+      grid-row: 1 / 5;
+      align-content: space-between;
+      padding: var(--s-7) var(--s-6);
+    }
+    .stratum:not(.stratum--core) {
+      grid-column: 4 / -1;
+      padding-inline: var(--s-7);
+      grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+    }
+    .stratum--1 { padding-block: var(--s-7); }
+    .stratum--2 { padding-block: var(--s-8); }
+    .stratum--3 { padding-block: var(--s-8); }
+    .stratum--4 { padding-block: var(--s-9); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stratum::before, .procs { transition: none; }
+    .stratum:not(.stratum--core)::before { display: none; }
+    .stratum:hover .procs, .stratum:focus-within .procs { transform: none; }
+    .stratum:target::after { animation: none; }
+  }
+</style>

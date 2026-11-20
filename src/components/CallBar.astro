@@ -1,0 +1,54 @@
+---
+import Icon from "./Icon.astro";
+import { phones, instagram } from "../data/clinic";
+---
+<div class="callbar" data-callbar data-rec="U-R002">
+  <a class="btn callbar__call" href={phones.main.href}><Icon name="phone" size={18} />Подзвонити</a>
+  <a class="callbar__ig" href={instagram} rel="noopener" target="_blank" aria-label="Instagram @dermavitalviv"><Icon name="instagram" size={22} /></a>
+</div>
+
+<style>
+  .callbar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    min-height: var(--bar-h);
+    padding: var(--s-2) var(--space) calc(var(--s-2) + env(safe-area-inset-bottom));
+    background: var(--color-bg);
+    border-top: var(--line) solid var(--color-layer-2);
+    transition: transform var(--dur-short) var(--ease-out), visibility 0s linear 0s;
+  }
+  .callbar__call { flex: 1; --btn-h: 52px; }
+  .callbar__ig {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: var(--line) solid var(--color-muted);
+    border-radius: var(--radius-pill);
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: background-color var(--dur-micro) var(--ease-out);
+  }
+  .callbar__ig:active { transform: scale(.98); }
+  @media (hover: hover) {
+    .callbar__ig:hover { background: var(--color-layer-1); }
+  }
+  :global(.callbar.is-armed:not(.is-shown)) {
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform var(--dur-short) var(--ease-in), visibility 0s linear var(--dur-short);
+  }
+  @media (min-width: 64rem) {
+    .callbar { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .callbar, :global(.callbar.is-armed:not(.is-shown)) { transition: none; }
+    .callbar__ig:active { transform: none; }
+  }
+</style>

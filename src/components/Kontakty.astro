@@ -1,0 +1,69 @@
+---
+import Icon from "./Icon.astro";
+import { phones, email, instagram, youtube, address, mapsHref } from "../data/clinic";
+---
+<section id="kontakty" class="kontakty section on-deep" aria-labelledby="kontakty-title">
+  <div class="container">
+    <h2 id="kontakty-title">Контакти</h2>
+
+    <div class="kontakty__main">
+      <div class="kontakty__block" data-rec="U-R005,P-R005,S-R013,S-R014">
+        <p class="kontakty__label">{address.city}</p>
+        <p class="kontakty__big">{address.street}</p>
+        <a class="link link-row kontakty__accent" href={mapsHref} rel="noopener" target="_blank">Відкрити в Google Maps</a>
+      </div>
+      <div class="kontakty__block">
+        <p class="kontakty__label">Телефон для запису</p>
+        <a class="kontakty__big kontakty__phone" href={phones.main.href} aria-label={`Подзвонити для запису: ${phones.main.full}`}>{phones.main.label}</a>
+        <a class="btn btn--deep" href={phones.main.href}><Icon name="phone" size={18} />Подзвонити й записатися</a>
+      </div>
+    </div>
+
+    <ul class="kontakty__more">
+      {phones.others.map((p) => (
+        <li><a class="link link-row" href={p.href}>{p.full}</a></li>
+      ))}
+      <li><a class="link link-row" href={`mailto:${email}`}>{email}</a></li>
+      <li><a class="link link-row" href={instagram} rel="noopener" target="_blank"><Icon name="instagram" />Instagram</a></li>
+      <li><a class="link link-row" href={youtube} rel="noopener" target="_blank">YouTube</a></li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .kontakty { background: var(--color-deep); color: var(--color-on-dark); padding-bottom: var(--s-9); }
+  .kontakty h2 { margin-bottom: var(--s-8); }
+  .kontakty__main { display: grid; gap: var(--s-8); }
+  .kontakty__block { display: grid; gap: var(--s-3); justify-items: start; align-content: start; }
+  .kontakty__label { font-size: var(--fs-small); color: var(--color-accent-on-deep); }
+  .kontakty__big {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--fs-big);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--color-on-dark);
+    font-variant-numeric: tabular-nums lining-nums;
+    margin-bottom: var(--s-3);
+  }
+  .kontakty__phone { text-decoration: none; white-space: nowrap; transition: color var(--dur-micro) var(--ease-out); }
+  @media (hover: hover) {
+    .kontakty__phone:hover { color: var(--color-accent-on-deep); }
+  }
+  .kontakty__accent { color: var(--color-accent-on-deep); font-weight: 500; }
+  .kontakty__more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+    margin-top: var(--s-8);
+    padding-top: var(--s-5);
+    border-top: var(--line) solid var(--color-line-deep);
+  }
+  .kontakty__more .link { white-space: nowrap; }
+
+  @media (min-width: 64rem) {
+    .kontakty__main { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .kontakty__main > :first-child { grid-column: 1 / 7; }
+    .kontakty__main > :last-child { grid-column: 7 / -1; }
+  }
+</style>

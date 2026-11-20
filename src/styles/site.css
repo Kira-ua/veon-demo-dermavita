@@ -1,0 +1,122 @@
+/* DermaVita: shared type, controls and surfaces. Values only through tokens.css. */
+
+html { overflow-x: clip; scrollbar-color: var(--color-brand) var(--color-layer-1); caret-color: var(--color-accent); }
+body {
+  overflow-x: clip;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  font-variant-numeric: lining-nums;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  margin: 0;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+h2 { font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.01em; }
+h3 { font-size: var(--fs-h3); line-height: 1.2; }
+p { margin: 0; max-width: 65ch; }
+svg.icon { flex-shrink: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+::selection { background: var(--color-layer-3); color: var(--color-text); }
+
+:focus-visible {
+  outline: 2px solid var(--focus, var(--color-accent));
+  outline-offset: 2px;
+  transition: none;
+}
+
+.section { padding-block: var(--section-gap); }
+.section__head { display: grid; gap: var(--s-4); margin-bottom: var(--s-8); }
+.lead { font-size: var(--fs-lead); line-height: 1.45; }
+.small { font-size: var(--fs-small); line-height: 1.45; }
+.price { font-weight: 500; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+
+/* Buttons: one form for the whole page, the pill; colour follows the layer. */
+.btn {
+  --btn-bg: var(--color-accent);
+  --btn-fg: var(--color-on-dark);
+  --btn-bg-hover: color-mix(in srgb, var(--color-accent) 84%, var(--color-text));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: var(--btn-h);
+  padding: 0 var(--s-6);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+.btn:active { transform: scale(.98); }
+@media (hover: hover) {
+  .btn:hover { background: var(--btn-bg-hover); }
+}
+.btn--light {
+  --btn-bg: var(--color-on-dark);
+  --btn-fg: var(--color-accent);
+  --btn-bg-hover: var(--color-layer-1);
+}
+.btn--ink {
+  --btn-bg: var(--color-text);
+  --btn-fg: var(--color-bg);
+  --btn-bg-hover: color-mix(in srgb, var(--color-text) 82%, var(--color-accent));
+}
+.btn--deep {
+  --btn-bg: var(--color-accent-on-deep);
+  --btn-fg: var(--color-deep);
+  --btn-bg-hover: var(--color-on-dark);
+}
+.btn--sm { min-height: var(--tap); padding: 0 var(--s-5); font-size: var(--fs-small); }
+
+/* Text links: underline that thickens on hover, colour by layer. */
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) {
+  .link:hover { text-decoration-thickness: 2px; }
+}
+.link-row { display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); }
+
+/* FutureLink: a page of the full site, not built yet. Reads as a quiet link with a dotted underline. */
+.future-link {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: currentColor;
+  cursor: default;
+}
+.future-link .future-link__note {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.future-link:hover .future-link__note { transition-delay: 700ms; }
+.future-link:focus-visible .future-link__note { transition-delay: 0ms; }
+.future-link:active { transform: none; }
+
+/* Surfaces set their own focus ring colour */
+.on-brand { --focus: var(--color-text); }
+.on-accent { --focus: var(--color-on-dark); }
+.on-deep { --focus: var(--color-accent-on-deep); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active { transform: none; }
+}
