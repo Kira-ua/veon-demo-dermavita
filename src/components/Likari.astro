@@ -1,6 +1,7 @@
 ---
 import FutureLink from "./FutureLink.astro";
 import { license, NOTE_SOON } from "../data/clinic";
+const img = import.meta.env.BASE_URL.replace(/\/?$/, "/") + "img/";
 ---
 <section id="likari" class="likari section" aria-labelledby="likari-title">
   <div class="container">
@@ -15,9 +16,9 @@ import { license, NOTE_SOON } from "../data/clinic";
     <div class="team">
       <figure class="person person--y">
         <picture data-rec="SEO-R003">
-          <source type="image/avif" srcset="/img/yurii-melnychuk-400.avif 400w, /img/yurii-melnychuk-588.avif 588w" sizes="(min-width: 64rem) 34vw, (min-width: 40rem) 45vw, 82vw" />
-          <source type="image/webp" srcset="/img/yurii-melnychuk-400.webp 400w, /img/yurii-melnychuk-588.webp 588w" sizes="(min-width: 64rem) 34vw, (min-width: 40rem) 45vw, 82vw" />
-          <img class="person__photo" src="/img/yurii-melnychuk-588.webp" width="588" height="784" loading="lazy" decoding="async" alt="Юрій Мельничук, співзасновник медичного центру DermaVita" />
+          <source type="image/avif" srcset={`${img}yurii-melnychuk-400.avif 400w, ${img}yurii-melnychuk-588.avif 588w`} sizes="(min-width: 64rem) 34vw, (min-width: 40rem) 45vw, 82vw" />
+          <source type="image/webp" srcset={`${img}yurii-melnychuk-400.webp 400w, ${img}yurii-melnychuk-588.webp 588w`} sizes="(min-width: 64rem) 34vw, (min-width: 40rem) 45vw, 82vw" />
+          <img class="person__photo" src={`${img}yurii-melnychuk-588.webp`} width="588" height="784" loading="lazy" decoding="async" alt="Юрій Мельничук, співзасновник медичного центру DermaVita" />
         </picture>
         <figcaption>
           <h3 class="person__name">Юрій Мельничук</h3>
